@@ -1,0 +1,21 @@
+from threading import Thread
+import cv2
+import time 
+def video():
+    cap = cv2.VideoCapture(0)
+    while(True):
+        ret, frame = cap.read()
+        cv2.imshow("frame", frame)
+        if cv2.waitKey(1) == ord('q'):
+            break
+
+    cap.release()
+    cv2.destroyAllWindows()
+
+def speak():
+    a = input("noi gi di: ")
+    print(a)
+th1 = Thread(target=video)
+th1.start()
+th2 = Thread(target=speak)
+th2.start()
