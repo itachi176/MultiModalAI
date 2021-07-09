@@ -2,6 +2,7 @@ from threading import Thread
 import cv2
 import time 
 from text_to_speech import *
+
 def video():
     cap = cv2.VideoCapture(0)
     while(True):

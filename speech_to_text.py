@@ -1,5 +1,5 @@
 import speech_recognition as sr
-import pyttsx3 
+import pyaudio
   
 # Initialize the recognizer 
 r = sr.Recognizer() 
@@ -9,7 +9,7 @@ with sr.Microphone() as source:
     audio = r.listen (source)
 
     try:
-        text = r.recognize_google(audio)
+        text = r.recognize_google(audio, language="vi-VI")
         print(text)
     except:
         print("loi roi !!!")
