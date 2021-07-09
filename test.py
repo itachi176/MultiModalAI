@@ -1,6 +1,7 @@
 from threading import Thread
 import cv2
 import time 
+from text_to_speech import *
 def video():
     cap = cv2.VideoCapture(0)
     while(True):
@@ -13,8 +14,9 @@ def video():
     cv2.destroyAllWindows()
 
 def speak():
-    a = input("noi gi di: ")
-    print(a)
+    a = input("nhap gi do: ")
+    if a == "xin chao":
+        text_to_speech("hoang")
 th1 = Thread(target=video)
 th1.start()
 th2 = Thread(target=speak)

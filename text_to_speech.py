@@ -2,11 +2,14 @@
 # to speech conversion
 import pyttsx3
   
-# init function to get an engine instance for the speech synthesis 
-engine = pyttsx3.init()
+def text_to_speech(text):
+    # init function to get an engine instance for the speech synthesis 
+    engine = pyttsx3.init()
   
-# say method on the engine that passing input text to be spoken
-engine.say('alo')
+    # say method on the engine that passing input text to be spoken
+    engine.say(text)
   
-# run and wait method, it processes the voice commands. 
-engine.runAndWait()
+    # run and wait method, it processes the voice commands. 
+    engine.runAndWait()
+
+# text_to_speech("hello peter")
