@@ -3,3 +3,9 @@ sudo apt-get install python3-pyaudio
 pip install pyaudio
 pip install pyttsx3
 sudo apt-get update && sudo apt-get install espeak
+
+sudo apt-get install python3-gi
+sudo apt-get install pkg-config libcairo2-dev gcc python3-dev libgirepository1.0-dev
+pip install gobject PyGObject
+
+

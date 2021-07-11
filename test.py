@@ -17,7 +17,7 @@ def video():
 def speak():
     a = input("nhap gi do: ")
     if a == "xin chao":
-        text_to_speech("hoang")
+        text_to_speech("chào hoàng")
 th1 = Thread(target=video)
 th1.start()
 th2 = Thread(target=speak)
