@@ -4,6 +4,9 @@ import cv2
 import time 
 from text_to_speech import *
 from test import *
+from price import *
+import pandas as pd 
+
 
 INPUT_FILE='image/test.png'
 OUTPUT_FILE='predicted.jpg'
@@ -11,11 +14,11 @@ LABELS_FILE='yolo-coco/coco.names'
 CONFIG_FILE='yolo-coco/yolov3.cfg'
 WEIGHTS_FILE='yolo-coco/yolov3.weights'
 CONFIDENCE_THRESHOLD=0.7
+
 def objectdetection():
-	global name 
+	global name
 
 	LABELS = open(LABELS_FILE).read().strip().split("\n")
-
 	np.random.seed(4)
 	COLORS = np.random.randint(0, 255, size=(len(LABELS), 3),
 		dtype="uint8")
@@ -40,16 +43,9 @@ def objectdetection():
 		blob = cv2.dnn.blobFromImage(image, 1 / 255.0, (416, 416),
 			swapRB=True, crop=False)
 		net.setInput(blob)
-		start = time.time()
+
 		layerOutputs = net.forward(ln)
-		end = time.time()
 
-
-		# print("[INFO] YOLO took {:.6f} seconds".format(end - start))
-
-
-		# initialize our lists of detected bounding boxes, confidences, and
-		# class IDs, respectively
 		boxes = []
 		confidences = []
 		classIDs = []
@@ -90,22 +86,6 @@ def objectdetection():
 		idxs = cv2.dnn.NMSBoxes(boxes, confidences, CONFIDENCE_THRESHOLD,
 			CONFIDENCE_THRESHOLD)
 
-	# ensure at least one detection exists
-	# if len(idxs) > 0:
-	# 	# loop over the indexes we are keeping
-	# 	for i in idxs.flatten():
-	# 		# extract the bounding box coordinates
-	# 		(x, y) = (boxes[i][0], boxes[i][1])
-	# 		(w, h) = (boxes[i][2], boxes[i][3])
-
-	# 		color = [int(c) for c in COLORS[classIDs[i]]]
-
-	# 		cv2.rectangle(image, (x, y), (x + w, y + h), color, 2)
-	# 		text = "{}: {:.4f}".format(LABELS[classIDs[i]], confidences[i])
-	# 		cv2.putText(image, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX,0.5, color, 2)
-				# if LABELS[classIDs[i]] == "person":
-				# (x_person, y_person) = (boxes[i][0], boxes[i][1])
-				# (w_person, h_person) = (boxes[i][2], boxes[i][3])
 	# print(x_person)
 
 		if len(idxs) > 0:
@@ -123,15 +103,14 @@ def objectdetection():
 				text = "{}:{:.4f}".format(LABELS[classIDs[i]], confidences[i])
 				cv2.putText(image, text, (x_object, y_object-5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 				name = LABELS[classIDs[i]]
-
+        
 		cv2.imshow("Image", image)
 		if cv2.waitKey(1) & 0xFF == ord('q'):
 			break
-
 	cv2.destroyAllWindows()
+	time.sleep(1)
 
 def video():
-    cap = cv2.VideoCapture(0)
     while(True):
         ret, frame = cap.read()
         cv2.imshow("frame", frame)
@@ -141,6 +120,14 @@ def video():
     cap.release()
     cv2.destroyAllWindows()
 
+
+df = pd.read_csv("./data.csv")
+def price_object(name):
+    price = df[df['Name']==name]['price'].values[0]
+    return price
+def color_object(name):
+    color = df[df['Name']==name]['color'].values[0]
+    return color
 def speak():
     a = ''
     while(a != "tạm biệt"):
@@ -149,7 +136,14 @@ def speak():
             text_to_speech("chào hoàng, tôi có thể giúp gì cho bạn")
         if a == "đây là gì":
             text_to_speech("đây là {}".format(name))
-        
+        if a == "giá bao nhiêu":
+            price = price_object(name)
+            print(price)
+            text_to_speech("giá của {} là {}".format(name, price))
+        if a == "màu gì":
+            color = color_object(name)
+            print(color)
+            text_to_speech("màu của {} là {}".format(name, color))
         if a == "tạm biệt":
             text_to_speech("Hẹn gặp lại hoàng")
 
