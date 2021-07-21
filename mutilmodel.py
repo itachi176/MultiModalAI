@@ -144,8 +144,10 @@ def speak():
         print(a)
         if a == "lấy quả táo trên bàn\n":
             label, corr = obj_det()
-            print(label)
-            print(corr)
+            if ("apple" in label):
+                print('toa do qua tao la: ', label.index('apple'))
+            else:
+                print('khong co qua tao nao tren ban')
         if a == "xin chào\n":
             text_to_speech("chào hoàng, tôi có thể giúp gì cho bạn")
         if a == "đây là gì":
