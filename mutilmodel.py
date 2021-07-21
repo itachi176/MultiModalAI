@@ -6,7 +6,7 @@ from text_to_speech import *
 from test import *
 from price import *
 import pandas as pd
-
+from similary import *
 
 INPUT_FILE = 'e.png'
 OUTPUT_FILE = 'predicted.jpg'
@@ -84,6 +84,7 @@ def obj_det():
                             CONFIDENCE_THRESHOLD)
 
     label_pred = []
+    corr = []
     if len(idxs) > 0:
         for i in idxs.flatten():
             (x, y) = (boxes[i][0], boxes[i][1])
@@ -101,16 +102,18 @@ def obj_det():
         #     cv2.putText(image, text, (x_object, y_object-5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
             name = LABELS[classIDs[i]]
             label_pred.append(name)
-        print('d' in label_pred)
-
-    cv2.imshow("Image", image)
-    cv2.waitKey()
+            corr.append([x,y,w,h])
+        # print('d' in label_pred)
+    return label_pred, corr
+    # cv2.imshow("Image", image)
+    # cv2.waitKey()
 
 
 def video():
-    cap = cv2.VideoCapture()
+    cap = cv2.VideoCapture(0)
 
     while(True):
+        
         ret, frame = cap.read()
         cv2.imshow("frame", frame)
         if cv2.waitKey(1) == ord('q'):
@@ -135,11 +138,15 @@ def color_object(name):
 
 def speak():
     a = ''
-    while(a != "tạm biệt"):
+    while(a != "tạm biệt\n"):
         a = speech_to_text()
-        if a == "lấy quả táo trên bàn":
-            obj_det()
-        if a == "Xin chào":
+        a = similary(a)
+        print(a)
+        if a == "lấy quả táo trên bàn\n":
+            label, corr = obj_det()
+            print(label)
+            print(corr)
+        if a == "xin chào\n":
             text_to_speech("chào hoàng, tôi có thể giúp gì cho bạn")
         if a == "đây là gì":
             text_to_speech("đây là {}".format(name))
@@ -151,7 +158,7 @@ def speak():
             color = color_object(name)
             print(color)
             text_to_speech("màu của {} là {}".format(name, color))
-        if a == "tạm biệt":
+        if a == "tạm biệt\n":
             text_to_speech("Hẹn gặp lại hoàng")
 
 
