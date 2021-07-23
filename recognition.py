@@ -6,6 +6,7 @@ import cv2
 import time
 import imutils
 
+
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-e", "--encodings", required=True,
