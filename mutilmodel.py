@@ -222,11 +222,11 @@ def speak():
         if a == "lấy quả táo trên bàn\n":
             label, corr = obj_det()
             if ("apple" in label):
-                print('toa do qua tao la: ', label.index('apple'))
+                print('toa do qua tao la: ', corr[label.index('apple')-1])
             else:
                 print('khong co qua tao nao tren ban')
         if a == "xin chào\n":
-            text_to_speech("chào hoàng, tôi có thể giúp gì cho bạn")
+            text_to_speech("chào bạn, tôi có thể giúp gì cho bạn")
         if a == "đây là gì":
             text_to_speech("đây là {}".format(name))
         if a == "giá bao nhiêu":
@@ -242,8 +242,17 @@ def speak():
         if a == "đây là ai\n":
             text_to_speech('đây là {}'.format(my_label))
         if a == "giới tính là gì\n":
-            text_to_speech("giới tính là {}".format(user[user['name'] == my_label]['gioi tinh'][0]))
-        if a == ""
+            text_to_speech("giới tính là {}".format(user[user['name'] == my_label]['gioi tinh'].values[0]))
+        if a == "mã số sinh viên là bao nhiêu\n":
+            mssv = str(user[user['name']==my_label]['id'][0])
+            text_to_speech("mã số sinh viên là {}".format(mssv))
+            print(mssv)
+        if a == "nghề nghiệp là gì\n":
+            job = user[user['name']==my_label]['nghe nghiep'].values[0]
+            text_to_speech("nghề nghiệp của {} là {}".format(my_label, job))
+            print('job')
+        if a == "học lớp nào\n":
+            text_to_speech("{} học lớp {}".format(my_label, user[user['name']==my_label]['lop'][0]))
 
 
 # th1 = Thread(target=video)
