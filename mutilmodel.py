@@ -53,11 +53,11 @@ convnet = conv_2d(convnet, 32, 5, activation='relu')
 convnet = max_pool_2d(convnet, 5)
 
 convnet = fully_connected(convnet, 1024, activation='relu')
-convnet = dropout(convnet, 0.7)
+convnet = dropout(convnet, 0.8)
 convnet = fully_connected(convnet, 3, activation='softmax')
 convnet = regression(convnet, optimizer='adam', learning_rate = 0.001, loss='categorical_crossentropy')
 model = tflearn.DNN(convnet, tensorboard_verbose=1)
-model.fit(X_train, y_train, n_epoch=7, validation_set=(X_test, y_test), show_metric = True, run_id="FRS" )
+model.fit(X_train, y_train, n_epoch=10)
 
 
 def obj_det():
@@ -184,7 +184,7 @@ def video():
             new = cv2.resize(new, (50,50))
             new = new.reshape(50,50,1)
             result = model.predict([new])[0]
-            global mylabel
+            global my_label
             if np.argmax(result) == 0:
                 my_label = 'hoang'
             if np.argmax(result) == 1:
@@ -193,7 +193,7 @@ def video():
                 mylabel = 'ronaldo'
             cv2.putText(frame, '{}'.format(my_label), (x, y), cv2.FONT_ITALIC, 1, (0, 0, 255), 1)
 
-            
+           
         cv2.imshow("frame", frame)
         if cv2.waitKey(100) & 0xFF==ord('q'):
             break
@@ -202,7 +202,7 @@ def video():
 
 
 df = pd.read_csv("./data.csv")
-
+user = pd.read_csv('./user.csv')
 
 def price_object(name):
     price = df[df['Name'] == name]['price'].values[0]
@@ -212,7 +212,6 @@ def price_object(name):
 def color_object(name):
     color = df[df['Name'] == name]['color'].values[0]
     return color
-
 
 def speak():
     a = ''
@@ -241,7 +240,10 @@ def speak():
         if a == "tạm biệt\n":
             text_to_speech("Hẹn gặp lại hoàng")
         if a == "đây là ai\n":
-            text_to_speech('đây là {}'.format(mylabel))
+            text_to_speech('đây là {}'.format(my_label))
+        if a == "giới tính là gì\n":
+            text_to_speech("giới tính là {}".format(user[user['name'] == my_label]['gioi tinh'][0]))
+        if a == ""
 
 
 # th1 = Thread(target=video)

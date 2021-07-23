@@ -41,7 +41,7 @@ convnet = dropout(convnet, 0.7)
 convnet = fully_connected(convnet, 3, activation='softmax')
 convnet = regression(convnet, optimizer='adam', learning_rate = 0.001, loss='categorical_crossentropy')
 model = tflearn.DNN(convnet, tensorboard_verbose=1)
-model.fit(X_train, y_train, n_epoch=5, validation_set=(X_test, y_test), show_metric = True, run_id="FRS" )
+model.fit(X_train, y_train, n_epoch=5)
 
 # while vc.isOpened():
 #     ret, frame = vc.read()
@@ -98,7 +98,7 @@ def video():
             if np.argmax(result) == 0:
                 my_label = 'hoang'
             if np.argmax(result) == 1:
-                my_label = 'messi'
+                my_label = 'my tam'
             else:
                 mylabel = 'ronaldo'
             cv2.putText(frame, '{}'.format(my_label), (x, y), cv2.FONT_ITALIC, 1, (0, 0, 255), 1)
