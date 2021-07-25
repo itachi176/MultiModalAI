@@ -16,7 +16,6 @@ WEIGHTS_FILE = 'yolo-coco/yolov3.weights'
 CONFIDENCE_THRESHOLD = 0.7
 import cv2
 import pickle
-
 from  preprocess import *
 import numpy as np
 import cv2
@@ -148,9 +147,11 @@ def obj_det():
             label_pred.append(name)
             corr.append([x,y,w,h])
         # print('d' in label_pred)
+    import matplotlib.pyplot as plt   
+    plt.imshow(image)
+    plt.show()
     return label_pred, corr
-    # cv2.imshow("Image", image)
-    # cv2.waitKey()
+
 
 
 # def video():
