@@ -24,6 +24,7 @@ import tflearn
 from tflearn.layers.conv import conv_2d, max_pool_2d
 from tflearn.layers.core import input_data, dropout, fully_connected
 from tflearn.layers.estimator import regression
+from yolov5 import *
 import pickle
 data = my_data()
 # data = shuffle(data)
@@ -254,6 +255,16 @@ def speak():
             print('job')
         if a == "học lớp nào\n":
             text_to_speech("{} học lớp {}".format(my_label, user[user['name']==my_label]['lop'][0]))
+        if a == "lấy cho tôi vật vào hộp màu đỏ\n":
+            corr_data = yolo()
+            red_corr = corr_data[corr_data['name'] == 'red']
+            xcenter_pixel = red_corr['xcenter'].values[0]
+            ycenter_pixel = red_corr['ycenter'].values[0]
+            #67pixel = 3cm 
+            xcenter_mm = xcenter_pixel/67*30
+            ycenter_mm = ycenter_pixel/67*30
+            print("x : {}, y: {}".format(xcenter_mm, ycenter_mm)) 
+            
 
 
 # th1 = Thread(target=video)

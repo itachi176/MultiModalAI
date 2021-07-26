@@ -7,7 +7,7 @@ INPUT_FILE='e.png'
 OUTPUT_FILE='predicted.jpg'
 LABELS_FILE='yolo-coco/coco.names'
 CONFIG_FILE='yolo-coco/yolov3.cfg'
-WEIGHTS_FILE='yolo-coco/yolov3.weights'
+WEIGHTS_FILE='best.pt'
 CONFIDENCE_THRESHOLD=0.7
 def obj_det():
     LABELS = open(LABELS_FILE).read().strip().split("\n")
@@ -100,3 +100,5 @@ def obj_det():
 
     cv2.imshow("Image", image)
     cv2.waitKey()
+
+obj_det()
