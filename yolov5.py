@@ -8,10 +8,10 @@ def yolo(image):
     results = model(img1)
     results.print()  
     # results.show()
-    # results.save()
+    results.save()
     results.xywh[0]
     a = results.pandas().xywh[0]
-    # print(a)
+    print(a)
     # results.show()
     # print(a['confidence'][0])
     boxes = []
@@ -19,7 +19,7 @@ def yolo(image):
 # x = yolo()
 # y = x[x['name']=='red']
 # print(y['xcenter'].values[0])
-# img = cv2.imread('./data-mutilmodel/h1.jpg')
+# img = cv2.imread('./a.jpg')
 # corr_data = yolo(img)
 # red_corr = corr_data[corr_data['name'] == 'red']
 # xcenter_pixel = red_corr['xcenter'].values[0]-600
@@ -55,8 +55,9 @@ for file_name in os.listdir('./data-mutilmodel'):
     err_y = (int(y)-ycenter_mm) * (int(y)-ycenter_mm)
     import math
     err = math.sqrt(err_x+err_y)
-
+    w = red_corr['width'].values[0]/62*30
+    h = red_corr['height'].values[0]/62*30
    
-    file.writelines([name," ", str(x), " ", str(y), " ", str(xcenter_mm)," ", str(ycenter_mm)," ", str(err_x), " ", str(err_y)," ", err "\n"])
+    file.writelines([name," ", str(x), " ", str(y), " ", str(xcenter_mm)," ", str(ycenter_mm)," ", str(err_x), " ", str(err_y)," ", str(err)," ", str(w), " ", str(h), "\n"])
     # print(file_name.split('(')[0])
     
