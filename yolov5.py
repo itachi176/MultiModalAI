@@ -4,9 +4,9 @@ import  cv2
 import torchvision
 import os 
 def yolo(image):
-    model = torch.hub.load('ultralytics/yolov5', 'custom', path='test_best1.pt')
-    model.conf = 0.7
-    model.iou = 0.7
+    model = torch.hub.load('ultralytics/yolov5', 'custom', path='test_best2.pt')
+    model.conf = 0.6
+    model.iou = 0.6
     img1 = image[..., ::-1]
     results = model(img1)
     results.print()  
@@ -15,7 +15,7 @@ def yolo(image):
     results.xywh[0]
     a = results.pandas().xywh[0]
     # print(a)
-    results.show()
+    # results.show()
     # print(a['confidence'][0])
     boxes = []
     return a 
