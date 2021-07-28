@@ -4,7 +4,7 @@ import  cv2
 import torchvision
 import os 
 def yolo(image):
-    model = torch.hub.load('ultralytics/yolov5', 'custom', path='new_new_new_new_best.pt')
+    model = torch.hub.load('ultralytics/yolov5', 'custom', path='super-best.pt')
     model.conf = 0.6
     model.iou = 0.6
     img1 = image[..., ::-1]
@@ -22,22 +22,22 @@ def yolo(image):
 # x = yolo()
 # y = x[x['name']=='red']
 # print(y['xcenter'].values[0])
-img = cv2.imread('./new-new-new-data/a.jpg')
+img = cv2.imread('./anhnam/a.jpg')
 corr_data = yolo(img)
 # red_corr = corr_data[corr_data['name'] == 'red']
-# xcenter_pixel = red_corr['xcenter'].values[0]-600
-# ycenter_pixel = red_corr['ycenter'].values[0]
+# xcenter_pixel = red_corr['xcenter'].values[0]-609
+# ycenter_pixel = red_corr['ycenter'].values[0]-28
 
 # # 67pixel = 3cm 
 # xcenter_mm = xcenter_pixel/62*30
 # ycenter_mm = ycenter_pixel/62*30
 # print(xcenter_mm)
-# print (ycenter_mm)
+# # print (ycenter_mm)
 # cv2.imshow('aaa', img)
 # cv2.waitKey()
 # images = []
 # file = open('test_corr.txt', 'w')
-# for file_name in os.listdir('./new-new-new-data'):
+# for file_name in os.listdir('./anhnam'):
 #     split1 = file_name.split('(')
 #     name = split1[0]
 #     split2 = split1[1].split(')')
@@ -46,11 +46,11 @@ corr_data = yolo(img)
 #     x = split3[0]
 #     y = split3[1]
     
-#     img = cv2.imread(os.path.join("./new-new-new-data", file_name))
+#     img = cv2.imread(os.path.join("./anhnam", file_name))
 #     corr_data = yolo(img)
 #     try:
-#         red_corr = corr_data[corr_data['name'] == 'green']
-#         xcenter_pixel = red_corr['xcenter'].values[0]-620
+#         red_corr = corr_data[corr_data['name'] == 'red']
+#         xcenter_pixel = red_corr['xcenter'].values[0]-625
 #         ycenter_pixel = red_corr['ycenter'].values[0]-34
 #         #67pixel = 3cm 
 #         xcenter_mm = xcenter_pixel/62*30
@@ -73,6 +73,6 @@ corr_data = yolo(img)
 #         file.writelines([name," ", str(x), " ", str(y), " ", str(xcenter_mm)," ", str(ycenter_mm)," ", str(err_x), " ", str(err_y), " ", str(err),"\n"])
 #     except:
 #         pass
-    # print(file_name.split('(')[0])
-    # file.writelines([file_name, "       ",str(xcenter_mm), "        ", str(ycenter_mm),"\n"])
+# #     # print(file_name.split('(')[0])
+# #     # file.writelines([file_name, "       ",str(xcenter_mm), "        ", str(ycenter_mm),"\n"])
     
