@@ -5,11 +5,12 @@ import random
 import numpy as np
 import matplotlib.pyplot as plt
 class Predictor:
-    def __init__(self, image_path, calib_data, origin, out_dir):
-        self.image_path = image_path
+    def __init__(self, img_path, calib_data, origin, out_dir):
+        self.image_path = img_path
         self.data = calib_data
         self.origin = origin
         self.out_dir = out_dir
+        
         try:
             self.img = cv2.imread(self.image_path)
             corners, appr_edge = pickle.load(open(self.data, 'rb'))

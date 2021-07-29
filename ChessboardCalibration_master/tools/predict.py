@@ -16,12 +16,12 @@ def parse_args():
     args = parser.parse_args()
     return args
 
-def pred(x, y, image_path):
+def pred(x, y, img):
 
     calib_data = "./ChessboardCalibration_master/calibration/calib.pkl"
     origin = (625,34)
     out_dir = './ChessboardCalibration_master/out_dir/images/'
-    predictor = Predictor(image_path=image_path, calib_data = calib_data, origin=origin, out_dir=out_dir)
+    predictor = Predictor(img_path=img, calib_data = calib_data, origin=origin, out_dir=out_dir)
 
         #print(a,b)
     real_x, real_y = predictor.predict(x, y)

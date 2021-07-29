@@ -1,4 +1,3 @@
-from test import CONFIDENCE_THRESHOLD
 import torch 
 import  cv2
 import torchvision
@@ -51,13 +50,12 @@ for file_name in os.listdir('./dataset_29072021'):
     
     img = cv2.imread(os.path.join("./dataset_29072021", file_name))
     corr_data = yolo(img)
-   
     red_corr = corr_data[corr_data['name'] == 'red']
-    xcenter_pixel = red_corr['xcenter'].values[0]-625
-    ycenter_pixel = red_corr['ycenter'].values[0]-34
+    xcenter_pixel = red_corr['xcenter'].values[0]
+    ycenter_pixel = red_corr['ycenter'].values[0]
     #67pixel = 3cm 
     # time.sleep(2)
-    # xcenter_mm, ycenter_mm = predict.pred(xcenter_pixel, ycenter_pixel, os.path.join("./dataset_29072021", file_name))
+    xcenter_mm, ycenter_mm = predict.pred(xcenter_pixel, ycenter_pixel, os.path.join("./dataset_29072021", file_name))
     xcenter_mm = xcenter_pixel/62*30
     xcenter_mm = round(xcenter_mm,2)
     ycenter_mm = ycenter_pixel/62*30
