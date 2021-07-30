@@ -57,8 +57,8 @@ while(True):
     
     if k%256 == 27:
         # ESC pressed
-        cv2.imwrite("./robot_cam/image.jpg", frame)
-        str = get_corr(frame)
+        cv2.imwrite("./robot_cam/image.jpg", cv2.imread('./a.jpg'))
+        str = get_corr(cv2.imread('./a.jpg'))
         print(str)
         print("hello")
 
@@ -68,3 +68,6 @@ while(True):
 
 cap.release()
 cv2.destroyAllWindows()
+# img = cv2.imread('./a.jpg')
+# cv2.imshow('aaa', img)
+# cv2.waitKey()
