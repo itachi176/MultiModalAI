@@ -22,15 +22,15 @@ def yolo(image):
     return a 
 
 
-def get_corr(img_path):
-    img = cv2.imread(img_path)
+def get_corr(img):
+    # img = cv2.imread(img_path)
     corr_data = yolo(img)
     red_corr = corr_data[corr_data['name'] == 'red']
     xcenter_pixel = red_corr['xcenter'].values[0]
     ycenter_pixel = red_corr['ycenter'].values[0]
     #67pixel = 3cm 
     # time.sleep(2)
-    xcenter_mm, ycenter_mm = predict.pred(xcenter_pixel, ycenter_pixel, img_path)
+    xcenter_mm, ycenter_mm = predict.pred(xcenter_pixel, ycenter_pixel, "./robot_cam/image.jpg")
     # xcenter_mm = xcenter_pixel/62*30
     xcenter_mm = round(xcenter_mm,2)*10
     # ycenter_mm = ycenter_pixel/62*30
@@ -57,7 +57,8 @@ while(True):
     
     if k%256 == 27:
         # ESC pressed
-        str = get_corr('./a.jpg')
+        cv2.imwrite("./robot_cam/image.jpg", frame)
+        str = get_corr(frame)
         print(str)
         print("hello")
 
