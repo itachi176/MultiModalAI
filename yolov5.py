@@ -12,7 +12,7 @@ def yolo(image):
     results = model(img1)
     results.print()  
     # results.show()
-    # results.save()
+    results.save()
     results.xywh[0]
     a = results.pandas().xywh[0]
     # print(a)
