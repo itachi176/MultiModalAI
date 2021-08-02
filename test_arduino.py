@@ -54,7 +54,10 @@ def speak():
     flag = 0
     while(a != "tạm biệt\n"):
         a = speech_to_text()
-        a = similary(a)
+        try:
+            a = similary(a)
+        except:
+            print('loi roi!!!')
         print(a)
         if a == "lấy quả táo trên bàn\n":
             label, corr = obj_det()
