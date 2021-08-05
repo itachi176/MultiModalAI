@@ -34,12 +34,16 @@ while(x != "tạm biệt\n"):
     if x == "bán cho tôi quả chuối\n":
         text_to_speech("bạn muốn mua bao nhiêu quả chuối")
         num = speech_to_text()
-        count += fruit['banana']*int(num)
+        num = similary_number(num)
+        num1 = number[num]  
+        count += fruit['banana']*int(num1)
         print(count)
     if x == "bán cho tôi quả táo\n":
         text_to_speech("bạn muốn mua bao nhiêu quả táo")
         num = speech_to_text()
-        count += fruit['apple']*int(num)
+        num = similary_number(num)
+        num1 = number[num]  
+        count += fruit['apple']*int(num1)
         print(count)
 
     if x == "tính tiền\n":
