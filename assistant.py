@@ -12,6 +12,8 @@ def get_name(s):
             label = i
     return label
 
+number ={"một": '1', "hai":'2', "ba":'3', "bốn": '4', "năm": '5', "sáu":'6', "bảy": '7', "tám": '8', "chín": '9'}
+
 a = ''
 x = ""
 # print(int(a)*3)
@@ -25,7 +27,9 @@ while(x != "tạm biệt\n"):
     if x == "bán cho tôi quả cam\n":
         text_to_speech("bạn muốn mua bao nhiêu quả cam")
         num = speech_to_text()
-        count += fruit['orange']*int(num)
+        num = similary_number(num)
+        num1 = number[num]  
+        count += fruit['orange']*int(num1)
         print(count)
     if x == "bán cho tôi quả chuối\n":
         text_to_speech("bạn muốn mua bao nhiêu quả chuối")
