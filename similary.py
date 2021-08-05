@@ -36,6 +36,7 @@ def similary(a):
             if(sim > temp):
                 str = copy.copy(i)
                 temp = sim
+    str = str.strip()
     return str
 
 def similary_number(a):
@@ -58,3 +59,5 @@ def similary_number(a):
 
         
     return str
+
+print(similary('xin chao'))
