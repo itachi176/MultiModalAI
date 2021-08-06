@@ -5,7 +5,7 @@ import os
 import ChessboardCalibration_master.tools.predict as predict #calibration 
 import time
 def yolo(image):
-    model = torch.hub.load('ultralytics/yolov5', 'custom', path='fruit.pt')
+    model = torch.hub.load('ultralytics/yolov5', 'custom', path='super-best.pt')
     model.conf = 0.6
     model.iou = 0.6
     img1 = image[..., ::-1]
@@ -23,11 +23,14 @@ def yolo(image):
 # x = yolo()
 # y = x[x['name']=='red']
 # print(y['xcenter'].values[0])
-img = cv2.imread('./fruit/images/test/orange.jpg')
+img = cv2.imread('./test.jpg')
 # predict.pred(754.3876342773438, 546.3013916015625, "./a.jpg")
 corr_data = yolo(img)
-# red_corr = corr_data[corr_data['name'] == 'red']
-# xcenter_pixel = red_corr['xcenter'].values[0]-609
+# print(corr_data)
+red_corr = corr_data[corr_data['name'] == 'green']
+# print(red_corr)
+xcenter_pixel = red_corr['xcenter'].values
+print(len(red_corr))
 # ycenter_pixel = red_corr['ycenter'].values[0]-28
 
 # # 67pixel = 3cm 

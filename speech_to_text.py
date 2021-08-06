@@ -1,6 +1,8 @@
 import speech_recognition as sr
 import pyaudio
-  
+import requests
+import json 
+
 # Initialize the recognizer 
 def speech_to_text():
     r = sr.Recognizer() 
