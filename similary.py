@@ -36,7 +36,7 @@ def similary(a):
             if(sim > temp):
                 str = copy.copy(i)
                 temp = sim
-    str = str.strip()
+    # str = str.strip()
     return str
 
 def similary_number(a):
@@ -45,7 +45,7 @@ def similary_number(a):
     tf_idf1 = TfidfVectorizer1.fit_transform([a, "xin chào"])
     sim = cosineSim(tf_idf1.toarray()[0], tf_idf1.toarray()[1])
     # print(sim)
-    arr = ["một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"]
+    arr = ["một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín","1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
     temp = 0
     str = ''
@@ -56,8 +56,8 @@ def similary_number(a):
         if(sim > temp):
             str = copy.copy(i)
             temp = sim
-
-        
+            
+    str = str.strip()
     return str
 
-print(similary('xin chao'))
+# print(similary('xin chao'))

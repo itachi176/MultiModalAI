@@ -17,3 +17,5 @@ def speech_to_text():
             return text
         except:
             print("loi roi !!!\n")
+
+# print(speech_to_text())

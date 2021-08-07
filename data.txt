@@ -7,6 +7,7 @@ lấy quả lê trên bàn
 bạn bao nhiêu tuổi
 bây giờ là mấy giờ
 hôm nay ngày bao nhiêu
+hôm nay là thứ mấy
 nhiệt độ hiện tại là bao nhiêu
 lấy cái bút bên cạnh cái bàn
 lấy cái bút bên cạnh cái ghế
@@ -24,11 +25,11 @@ lấy cho tôi vật vào hộp màu đỏ
 đây là ai
 giới tính là gì
 học lớp nào
+tính tiền
 mã số sinh viên là bao nhiêu
 bán cho tôi quả chuối
 bán cho tôi quả cam
 bán cho tôi quả táo
 giảm giá cho tôi
 ok
-tính tiền
 ac
