@@ -40,10 +40,13 @@ x = ""
 # print(int(a)*3)
 count = 0
 deal_num = 0
+orange = 0
+apple = 0
+banana = 0
 while(x != "tạm biệt"):
     a = speech_to_text()
     x = similary(a)
-    print(x)
+    # print(x)
     if x == "xin chào\n":
         text_to_speech("chào bạn tôi có thể giúp gì cho bạn")
 
@@ -65,19 +68,22 @@ while(x != "tạm biệt"):
         num = speech_to_text()
         num1 = get_num(num)  
         count += fruit['orange']*int(num1)
-        print(count)
+        # print(count)
+        orange += int(num1)
     if x == "bán cho tôi quả chuối\n":
         text_to_speech("bạn muốn mua bao nhiêu quả chuối")
         num = speech_to_text()
         num1 = get_num(num)  
         count += fruit['banana']*int(num1)
-        print(count)
+        banana += int(num1)
+        # print(count)
     if x == "bán cho tôi quả táo\n":
         text_to_speech("bạn muốn mua bao nhiêu quả táo")
         num = speech_to_text()
         num1 = get_num(num)
         count += fruit['apple']*int(num1)
-        print(count)
+        apple += int(num1)
+        # print(count)
 
     if x == "tính tiền\n":
         text_to_speech("của bạn hết {} đồng".format(count))
@@ -85,8 +91,8 @@ while(x != "tạm biệt"):
 
     if x == "giảm giá cho tôi\n":
         if  deal_num < 2:
-            text_to_speech("{} đồng nhé".format(count - 3000))
-            count = count - 3000
+            text_to_speech("{} đồng nhé".format(count - 5000))
+            count = count - 5000
             deal_num += 1 
         elif deal_num >= 2:
             text_to_speech("xin lỗi bạn, không giảm nữa")
@@ -106,4 +112,7 @@ while(x != "tạm biệt"):
             text_to_speech("đây là hóa đơn của bạn")
             print("khách hàng: ", name)
             print("mã thẻ: ", id )
+            print("quả táo: ", apple)
+            print("quả cam: ", orange)
+            print("quả chuối: ", banana)
             print("tổng tiền: ", count)
