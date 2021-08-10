@@ -2,6 +2,7 @@ from text_to_speech import *
 from speech_to_text import *
 from similary import *
 import datetime
+from test_api import *
 
 def insert_inf(id, name):
     with open('database.csv', 'w') as csvfile:
@@ -88,7 +89,9 @@ while(x != "tạm biệt"):
     if x == "tính tiền\n":
         text_to_speech("của bạn hết {} đồng".format(count))
         print("tinh tien", count)
-
+    if x =="tình hình dịch bệnh\n":
+        num = get_covid()
+        text_to_speech("Tổng số ca nhiễm hiện nay là {}".format(num))
     if x == "giảm giá cho tôi\n":
         if  deal_num < 2:
             text_to_speech("{} đồng nhé".format(count - 5000))
