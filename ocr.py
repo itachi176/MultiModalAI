@@ -14,15 +14,16 @@ def scan():
     cong = r'--oem 3 --psm 6 outputbase digits'
     x = pytesseract.image_to_string(img, config = cong)
     y = x.split("\n")
-    print(y)
-    print(corr_dict[y[1]])
+    # print(y)
+    # print(corr_dict[y[1]])
     cv2.imshow("aa", img)
     cv2.waitKey()
+    return y
 
-# text_to_speech("chào mừng bạn đến với cửa hàng chúng tôi")
-# text_to_speech("mời bạn chọn 1 hoặc 2")
-# text_to_speech("1, nhập đơn thuốc thừ bàn phím")
-# text_to_speech("2, đưa đơn thuốc lên camera để scan")
+text_to_speech("chào mừng bạn đến với cửa hàng chúng tôi")
+text_to_speech("mời bạn chọn 1 hoặc 2")
+text_to_speech("1, nhập đơn thuốc thừ bàn phím")
+text_to_speech("2, đưa đơn thuốc lên camera để scan")
 print("1-----nhập đơn thuốc từ bàn phím")
 print("2----- đưa đơn thuốc lên cam để scan")
 a = int(input("mời bạn chọn:"))
@@ -38,5 +39,10 @@ if a == 1:
     text_to_speech("Bạn mua thành công {} loại thuốc là {} và {}, xin chờ robot lấy thuốc và thanh toán".format(num, arr[0].lower(), arr[1]))
 
 if a == 2:
-    scan()
-    
+    corr = []
+    token = scan()
+    for i in token:
+        if i in corr_dict:
+            corr.append(corr_dict[i])
+    print("toạ độ của 2 loại thuốc là {}, {}".format(corr[0], corr[1]))
+    text_to_speech("bạn mua thành công {} loại thuốc là {} và {}, xin chờ robot lấy thuốc và thanh toán".format(len(corr), token[0].lower(), token[1].lower()))
