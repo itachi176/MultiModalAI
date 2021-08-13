@@ -74,12 +74,13 @@ for file_name in os.listdir('./dataset_undistorted/dataset_29072021'):
     import math
     err = math.sqrt(err_x*err_x+err_y*err_y)
     err = round(err, 2)
-    # w = red_corr['width'].values[0]/62*30
-    # w = round(err,2)
-    # h = red_corr['height'].values[0]/62*30
-    # h = round(err, 2)
+    w = red_corr['width'].values[0]/62*30
+    w = round(err,2)
+    h = red_corr['height'].values[0]/62*30
+    h = round(err, 2)
 
-    file.writelines([name," ", str(err_x), " ", str(err_y), " ", str(err),"\n"])
+    # file.writelines([name," ", str(err_x), " ", str(err_y), " ", str(err),"\n"])
+    file.writelines([name, " ", str(xcenter_mm), " ", str(ycenter_mm), " ", str(w), " ", str(h), "\n"])
 print("ketqua:", count/20)  
 # #     # print(file_name.split('(')[0])
 # #     # file.writelines([file_name, "       ",str(xcenter_mm), "        ", str(ycenter_mm),"\n"])
