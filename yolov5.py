@@ -2,7 +2,7 @@ import torch
 import  cv2
 import torchvision
 import os 
-import ChessboardCalibration_master.tools.predict as predict #calibration 
+import ChessboardCalibration_master.tools.predict as predict 
 import time
 def yolo(image):
     model = torch.hub.load('ultralytics/yolov5', 'custom', path='super-best.pt')
@@ -62,9 +62,9 @@ for file_name in os.listdir('./dataset_undistorted/dataset_29072021'):
     xcenter_mm, ycenter_mm = predict.pred(xcenter_pixel, ycenter_pixel, os.path.join("./dataset_undistorted/dataset_29072021/", file_name))
     end = time.time()
     # xcenter_mm = xcenter_pixel/62*30
-    xcenter_mm = round(xcenter_mm,2)
+    xcenter_mm = round(xcenter_mm,2)*10
     # ycenter_mm = ycenter_pixel/62*30
-    ycenter_mm = round(ycenter_mm, 2)
+    ycenter_mm = round(ycenter_mm, 2)*10
     print("time", end - start)
     count += (end-start)
     err_x = abs(int(x)-xcenter_mm)
@@ -74,13 +74,13 @@ for file_name in os.listdir('./dataset_undistorted/dataset_29072021'):
     import math
     err = math.sqrt(err_x*err_x+err_y*err_y)
     err = round(err, 2)
-    w = red_corr['width'].values[0]/62*30
-    w = round(err,2)
-    h = red_corr['height'].values[0]/62*30
-    h = round(err, 2)
+    w = red_corr['width'].values[0]
+    # w = round(w,2)
+    h = red_corr['height'].values[0]
+    # h = round(h, 2)
 
-    # file.writelines([name," ", str(err_x), " ", str(err_y), " ", str(err),"\n"])
-    file.writelines([name, " ", str(xcenter_mm), " ", str(ycenter_mm), " ", str(w), " ", str(h), "\n"])
+    file.writelines([name," ", str(err_x), " ", str(err_y), " ", str(err),"\n"])
+    # file.writelines([name, " ", str(xcenter_pixel), " ", str(ycenter_pixel), " ", str(w), " ", str(h), "\n"])
 print("ketqua:", count/20)  
 # #     # print(file_name.split('(')[0])
 # #     # file.writelines([file_name, "       ",str(xcenter_mm), "        ", str(ycenter_mm),"\n"])
