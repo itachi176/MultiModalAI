@@ -34,7 +34,8 @@ def pred(x, y, img):
     
     real_x, real_y = predictor.predict(x, y)
     reg_x, reg_y = regressor.predict(real_x,real_y)
-    print(reg_x, reg_y)
+    print("real:", real_x, real_y)
+    print("regress:", reg_x, reg_y)
     # elif args.undistort:
     #     umt = UndistortMethodTester(args)
     #     umt.undistort()
