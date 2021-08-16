@@ -21,12 +21,12 @@ type_dict = {
     "thuốc ho": ["Methorphan", "Prospan"]
 }
 def scan():
-    img = cv2.imread("./test.png")
+    img = cv2.imread("./a.jpg")
     # img = cv2.resize(img, (640, 360))
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     # print(pytesseract.image_to_string(img))
     cong = r'--oem 3 --psm 6 outputbase digits'
-    x = pytesseract.image_to_string(img, config = cong)
+    x = pytesseract.image_to_string(img, config = cong, lang = 'vie')
     y = x.split("\n")
     # print(y)
     # print(corr_dict[y[1]])
@@ -61,17 +61,17 @@ if a == 2:
     token = scan()
     token = token[:-1]
     print(token)
-    for i in token:
-        token_i = i.split(":")
-        name.append(token_i[0])
-        # print(corr_dict[token_i[0]])
-        # print(token_i[1].strip())
-        for j in range(int(token_i[1].strip())):
-            corr.append(corr_dict[token_i[0]][j])
-    text_to_speech("bạn đã mua các loại thuốc sau")
-    for i, j in enumerate(name):
-        text_to_speech(str(i+1) + j)
-    text_to_speech("mời chờ robot và thanh toán")
+    # for i in token:
+    #     token_i = i.split(":")
+    #     name.append(token_i[0])
+    #     # print(corr_dict[token_i[0]])
+    #     # print(token_i[1].strip())
+    #     for j in range(int(token_i[1].strip())):
+    #         corr.append(corr_dict[token_i[0]][j])
+    # text_to_speech("bạn đã mua các loại thuốc sau")
+    # for i, j in enumerate(name):
+    #     text_to_speech(str(i+1) + j)
+    # text_to_speech("mời chờ robot và thanh toán")
 
     print(corr)
     # print(token[0])
