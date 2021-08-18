@@ -1,1 +1,1 @@
-# MutilModelAI
+# MultiModelAI
