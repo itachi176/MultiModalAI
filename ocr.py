@@ -24,7 +24,7 @@ type_dict = {
     "thuốc ho": ["Methorphan", "Prospan"]
 }
 def scan():
-    img = cv2.imread("./test.png")
+    img = cv2.imread("./test.jpg")
 
     # img = cv2.resize(img, (640, 360))
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)

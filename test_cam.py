@@ -13,7 +13,7 @@ while True:
     img = cv2.imdecode(img_arr, -1)
     img = imutils.resize(img, width=1000, height=1800)
     cv2.imshow("Android_cam", img)
-  
+    cv2.imwrite("test.jpg", img)
     # Press Esc key to exit
     if cv2.waitKey(1) == 27:
         break
