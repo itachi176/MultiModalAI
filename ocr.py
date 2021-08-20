@@ -24,7 +24,7 @@ type_dict = {
     "thuốc ho": ["Methorphan", "Prospan"]
 }
 def scan():
-    img = cv2.imread("./a.jpg")
+    img = cv2.imread("./test.png")
 
     # img = cv2.resize(img, (640, 360))
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -64,24 +64,24 @@ if a == 2:
     corr = []
     name = []
     token = scan()
-    token = token[:-1]
+    # token = token[:-1]
     # print(token[0])
     # print(token[1])
-    for i in token:
-        regex = re.search("^\d", i)
-        if regex != None:
-            # i = i.replace(" ", '')
-            name.append(i)
-    #split data 
-    name1 = []
-    name2 = []
+    # for i in token:
+    #     regex = re.search("^\d", i)
+    #     if regex != None:
+    #         # i = i.replace(" ", '')
+    #         name.append(i)
+    # #split data 
+    # name1 = []
+    # name2 = []
 
-    for i in name:
-        name1.append(i.split("-")[0])
-        name2.append(i.split("-")[1])
+    # for i in name:
+    #     name1.append(i.split("-")[0])
+    #     name2.append(i.split("-")[1])
 
-    for i in name1:
-        i=i[2:]
+    # for i in name1:
+    #     i=i[2:]
         # print(i)
     print("aa", token)
     # for i in token:
