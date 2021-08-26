@@ -3,7 +3,8 @@ tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 import cv2 
 import re
 from PIL import Image   
-
+import time
+a = time.time()
 img = cv2.imread("test.png")
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 # cong = r'--oem 3 --psm 6 outputbase digits'
@@ -46,4 +47,5 @@ print("ten thuoc: ", tenthuoc)
 for i in range (len(name2)):
     name2[i] = name2[i][1:]
 # print(name1)
+print(time.time() - a)
 # print(x)

@@ -45,11 +45,13 @@ def scan():
     # print(pytesseract.image_to_string(img))
         
         # cong = r'--oem 3 --psm 6 outputbase digits'
+        start1 = time.time()
         x = tess.image_to_string(img, lang ='vie')
         y = x.split("\n")
+        time_run1 = time.time()-start1
         # Press Esc key to exit
         if cv2.waitKey(1) == 27:
-            return y
+            return y, time_run1
             # break
     
     cv2.destroyAllWindows()
@@ -95,8 +97,8 @@ if a == 2:
     while(True):
         corr = []
         name = []
-        start = time
-        token = scan()
+        token, time_run1 = scan()
+        start2 = time.time()
         token = token[:-1]
         print(token)
         # print(token[1])
@@ -111,8 +113,11 @@ if a == 2:
         # print(name)
         #get name 
         for i in name:
-            name1.append(i.split("SL")[0])
-            name2.append(i.split("SL")[1])
+            try:
+                name1.append(i.split("SL")[0])
+                name2.append(i.split("SL")[1])
+            except:
+                pass
 
         for i in range(len(name1)):
             name1[i] = name1[i][:-2]
@@ -120,8 +125,12 @@ if a == 2:
         tenthuoc=[]
         soluong=[]
         
+        print(name1)
         for i in name1:
-            tenthuoc.append(i.split(".")[1])
+            try:
+                tenthuoc.append(i.split(".")[1])
+            except:
+                pass
         # for i in name1:
         #     i=i[2:]
             # print(i)
@@ -131,6 +140,12 @@ if a == 2:
         for i in range (len(name2)):
             name2[i] = name2[i][1:]
         print(name1)
+        time_run2 = time.time() - start2
+        print(time_run1+time_run2)
+        conf = len(tenthuoc)/5
+        with open('data_ocr.txt', 'a') as file:
+            file.write(str(conf) +" "+ str(time_run2 + time_run1) + "\n")
+
     # text_to_speech("bạn mua thành công các loại thuốc sau:")
     # for i in range (len(name1)):
     #     text_to_speech("{} {}".format(name2[i], name1[i]))
