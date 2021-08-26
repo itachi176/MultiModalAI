@@ -1,6 +1,6 @@
-from os import nice
+# from os import nice
 import cv2 
-import pytesseract
+import pytesseract as  tess
 from text_to_speech import *
 from speech_to_text import *
 from similary import *
@@ -9,7 +9,9 @@ import cv2
 import numpy as np
 import imutils
 import re 
+import time
 
+tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 corr_dict ={
     "fenoprofen":[[300, 50, 220],[250,50,220]],
     "paracetamol":[[300, 50, 220],[250,50,220]],
@@ -29,7 +31,7 @@ type_dict = {
 }
 
 def scan():
-    url = "http://192.168.1.6:8080/shot.jpg"
+    url = "http://192.168.1.4:8080/shot.jpg"
   
 # While loop to continuously fetching data from the Url
     while True:
@@ -42,13 +44,13 @@ def scan():
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     # print(pytesseract.image_to_string(img))
         
-        cong = r'--oem 3 --psm 6 outputbase digits'
-        x = pytesseract.image_to_string(img, config = cong, lang = 'vie')
+        # cong = r'--oem 3 --psm 6 outputbase digits'
+        x = tess.image_to_string(img, lang ='vie')
         y = x.split("\n")
         # Press Esc key to exit
         if cv2.waitKey(1) == 27:
-            # return y
-            break
+            return y
+            # break
     
     cv2.destroyAllWindows()
 
@@ -69,11 +71,11 @@ def scan():
     return y
 
 
-text_to_speech("chào mừng bạn đến với cửa hàng chúng tôi")
-text_to_speech("mời bạn chọn 1, 2 hoặc 3")
-text_to_speech("1, nhập đơn thuốc thừ bàn phím")
-text_to_speech("2, đưa đơn thuốc lên camera để scan")
-text_to_speech("3, mời nói tên loại thuốc muốn mua")
+# text_to_speech("chào mừng bạn đến với cửa hàng chúng tôi")
+# text_to_speech("mời bạn chọn 1, 2 hoặc 3")
+# text_to_speech("1, nhập đơn thuốc thừ bàn phím")
+# text_to_speech("2, đưa đơn thuốc lên camera để scan")
+# text_to_speech("3, mời nói tên loại thuốc muốn mua")
 print("1-----nhập đơn thuốc từ bàn phím")
 print("2----- đưa đơn thuốc lên cam để scan")
 print("3--------mời nói tên loại thuốc muốn mua")
@@ -90,46 +92,48 @@ if a == 1:
     text_to_speech("Bạn mua thành công {} loại thuốc là {} và {}, xin chờ robot lấy thuốc và thanh toán".format(num, arr[0].lower(), arr[1]))
 
 if a == 2:
-    corr = []
-    name = []
-    token = scan()
-    token = token[:-1]
-    # print(token[0])
-    # print(token[1])
-    for i in token:
-        regex = re.search("^\d", i)
-        if regex != None:
-            # i = i.replace(" ", '')
-            name.append(i)
-    #split data 
-    name1 = []
-    name2 = []
-    # print(name)
-    #get name 
-    for i in name:
-        name1.append(i.split("SL")[0])
-        name2.append(i.split("SL")[1])
+    while(True):
+        corr = []
+        name = []
+        start = time
+        token = scan()
+        token = token[:-1]
+        print(token)
+        # print(token[1])
+        for i in token:
+            regex = re.search("^\d", i)
+            if regex != None:
+                # i = i.replace(" ", '')
+                name.append(i)
+        #split data 
+        name1 = []
+        name2 = []
+        # print(name)
+        #get name 
+        for i in name:
+            name1.append(i.split("SL")[0])
+            name2.append(i.split("SL")[1])
 
-    for i in range(len(name1)):
-        name1[i] = name1[i][:-2]
+        for i in range(len(name1)):
+            name1[i] = name1[i][:-2]
 
-    tenthuoc=[]
-    soluong=[]
-    
-    for i in name1:
-        tenthuoc.append(i.split(".")[1])
-    # for i in name1:
-    #     i=i[2:]
-        # print(i)
-    print("aa", tenthuoc)
+        tenthuoc=[]
+        soluong=[]
+        
+        for i in name1:
+            tenthuoc.append(i.split(".")[1])
+        # for i in name1:
+        #     i=i[2:]
+            # print(i)
+        print("aa", tenthuoc)
 
-    #lay so luong thuoc 
-    for i in range (len(name2)):
-        name2[i] = name2[i][1:]
-    print(name1)
-    text_to_speech("bạn mua thành công các loại thuốc sau:")
-    for i in range (len(name1)):
-        text_to_speech("{} {}".format(name2[i], name1[i]))
+        #lay so luong thuoc 
+        for i in range (len(name2)):
+            name2[i] = name2[i][1:]
+        print(name1)
+    # text_to_speech("bạn mua thành công các loại thuốc sau:")
+    # for i in range (len(name1)):
+    #     text_to_speech("{} {}".format(name2[i], name1[i]))
     # for i in token:
     #     token_i = i.split(":")
     #     name.append(token_i[0])
