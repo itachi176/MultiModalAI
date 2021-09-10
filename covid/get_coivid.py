@@ -16,4 +16,4 @@ for i in soup.findAll("td", {"class":"text-danger-new"}):
         if '+' in num:
             num = num[1:]
     arr.append(int(num))
-print(sum(arr))
+print("soca:", sum(arr))
