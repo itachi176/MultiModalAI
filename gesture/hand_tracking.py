@@ -85,17 +85,17 @@ def main():
                 if xp ==0 and yp ==0:
                     xp, yp = lmList[8][1], lmList[8][2]
 
-                cv2.line(frame, (xp, yp), (lmList[8][1], lmList[8][2]), (255, 0, 0), 15)
-                cv2.line(imgCanvas, (xp, yp), (lmList[8][1], lmList[8][2]), (255, 0, 0), 15)
-
+                cv2.line(frame, (xp, yp), (lmList[8][1], lmList[8][2]), (255, 0, 0), 10)
+                cv2.line(imgCanvas, (xp, yp), (lmList[8][1], lmList[8][2]), (255, 0, 0), 10)
+                cv2.imwrite("./test.png", cv2.resize(imgCanvas,(8, 8)))
                 xp, yp = lmList[8][1], lmList[8][2]
                 print("drawing")
         
-        # imgGray = cv2.cvtColor(imgCanvas, cv2.COLOR_BGR2GRAY)
-        # _, imgInv = cv2.threshold(imgGray, 50, 255, cv2.THRESH_BINARY_INV)
-        # imgInv = cv2.cvtColor(imgInv, cv2.COLOR_GRAY2BGR)
-        # frame = cv2.bitwise_and(frame, imgInv)
-        # frame = cv2.bitwise_or(frame, imgCanvas)
+        imgGray = cv2.cvtColor(imgCanvas, cv2.COLOR_BGR2GRAY)
+        _, imgInv = cv2.threshold(imgGray, 50, 255, cv2.THRESH_BINARY_INV)
+        imgInv = cv2.cvtColor(imgInv, cv2.COLOR_GRAY2BGR)
+        frame = cv2.bitwise_and(frame, imgInv)
+        frame = cv2.bitwise_or(frame, imgCanvas)
         #display fps
         ctime = time.time()
         fps = 1/(ctime-ptime)

@@ -1,3 +1,8 @@
 yolo-coco/yolov3.weights
 ChessboardCalibration
 pretrain_model/nn4.small2.v1.t7
+gesture/ml.model/saved_model.pb
+gesture/ml.model/keras_metadata.pb
+.gitignore
+gesture/ml.model/variables/variables.index
+gesture/ml.model/variables/variables.data-00000-of-00001
