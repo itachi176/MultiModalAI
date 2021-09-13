@@ -16,6 +16,7 @@ class handDetector():
         self.mpHands = mp.solutions.hands
         self.hands = self.mpHands.Hands()
         self.mpDraw = mp.solutions.drawing_utils
+        self.tipIds = [4,8,12,16,20]
 
     def findHands(self, frame, draw=True):
         imgRGB = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -28,7 +29,7 @@ class handDetector():
         return frame 
 
     def findPosition(self, frame, handNo=0, draw= True):
-        lmList = []
+        self.lmList = []
         if self.results.multi_hand_landmarks:
             myHand = self.results.multi_hand_landmarks[handNo]
             for id, lm in enumerate(myHand.landmark):
@@ -36,43 +37,65 @@ class handDetector():
                 h,w, c = frame.shape
                 cx, cy = int(lm.x*w), int(lm.y*h)
                 fingers = []
-                lmList.append([id, cx, cy])
+                self.lmList.append([id, cx, cy])
                 
-        return lmList
+        return self.lmList
         
-
+    def finger(self):
+        fingers = []
+        if self.lmList[self.tipIds[0]][1] < self.lmList[self.tipIds[0]-1][1]:
+            fingers.append(1)
+        else:
+            fingers.append(0)
+            
+        for id in range(1, 5):
+            if self.lmList[self.tipIds[id]][2] < self.lmList[self.tipIds[id]-2][2]:
+                fingers.append(1)
+            else:
+                fingers.append(0)
+            print(self.lmList[self.tipIds[id]][2], self.lmList[self.tipIds[id]-2][2])
+            
+        return fingers
 # mpHands = mp.solutions.hands
 # hands = mpHands.Hands()
 # mpDraw = mp.solutions.drawing_utils
 ptime = 0
-tipIds = [4,8,12,16,20]
 
 def main():
     cap = cv2.VideoCapture(0)
     detector = handDetector()
     ptime = 0
+    xp, yp = 0, 0
+    imgCanvas = np.zeros((480, 640, 3), np.uint8)
     while(True):
         ret, frame = cap.read()
         frame = cv2.flip(frame, 1)
         frame = detector.findHands(frame)
         lmList = detector.findPosition(frame)
+        # print(frame.shape)
         if len(lmList) != 0:
             # print(lmList[8])
-            frame = cv2.circle(frame, (lmList[8][1], lmList[8][2]), 20, (255,0,0), cv2.FILLED)
-            fingers = []
-            if lmList[tipIds[0]][1] < lmList[tipIds[0]-2][1]:
-                fingers.append(1)
-            else:
-                fingers.append(0)
-                
-            for id in range(1, 5):
-                if lmList[tipIds[id]][2] < lmList[tipIds[id]-2][2]:
-                    fingers.append(1)
-                else:
-                    fingers.append(0)
-                print(lmList[tipIds[id]][2],lmList[tipIds[id]-2][2])
-                
-            print(fingers)
+            finger = detector.finger()
+            print(finger)
+            if finger[1] and finger[2]:
+                print("select mode")
+                imgCanvas = np.zeros((480, 640, 3), np.uint8)
+            if finger[1] and finger[2] == False:
+                frame = cv2.circle(frame, (lmList[8][1], lmList[8][2]), 20, (255,0,0), cv2.FILLED)
+                if xp ==0 and yp ==0:
+                    xp, yp = lmList[8][1], lmList[8][2]
+
+                cv2.line(frame, (xp, yp), (lmList[8][1], lmList[8][2]), (255, 0, 0), 15)
+                cv2.line(imgCanvas, (xp, yp), (lmList[8][1], lmList[8][2]), (255, 0, 0), 15)
+
+                xp, yp = lmList[8][1], lmList[8][2]
+                print("drawing")
+        
+        # imgGray = cv2.cvtColor(imgCanvas, cv2.COLOR_BGR2GRAY)
+        # _, imgInv = cv2.threshold(imgGray, 50, 255, cv2.THRESH_BINARY_INV)
+        # imgInv = cv2.cvtColor(imgInv, cv2.COLOR_GRAY2BGR)
+        # frame = cv2.bitwise_and(frame, imgInv)
+        # frame = cv2.bitwise_or(frame, imgCanvas)
         #display fps
         ctime = time.time()
         fps = 1/(ctime-ptime)
@@ -80,7 +103,9 @@ def main():
         cv2.putText(frame, f'FPS: {int(fps)}',(400, 70), cv2.FONT_HERSHEY_PLAIN,
                     3, (255, 255, 0), 3)
 
+        frame = cv2.addWeighted(frame,0.5,imgCanvas,0.5,0)
         cv2.imshow("image", frame)
+        cv2.imshow("draw", imgCanvas)
         if cv2.waitKey(1) == ord('q'):
             break
     cap.release()
