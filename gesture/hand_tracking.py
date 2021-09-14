@@ -5,7 +5,44 @@ import os
 # import HandTrackingModule as hm 
 import mediapipe as mp 
 import tensorflow as tf
-import tensorflow as tf
+# from gesture.test import pred
+import numpy as np
+model = tf.keras.models.load_model('./gesture/ml.h5')
+def pred(img):
+# img = cv2.imread('./test4.png')
+    gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    _, imgInv = cv2.threshold(gray_img, 50, 255, cv2.THRESH_BINARY_INV)
+    gray_img = cv2.cvtColor(imgInv, cv2.COLOR_GRAY2BGR)
+    gray_img = cv2.cvtColor(gray_img, cv2.COLOR_BGR2GRAY)
+    # img = cv2.resize(img, (28, 28))
+    # img = np.pad(img, (10,10), 'constant', constant_values=0 )
+    # img = cv2.resize(img, (28,28))/255
+    # a = tf.expand_dims(img, axis=0)
+    # x = model.predict(a)
+    # y = np.argmax(x)
+    # print(y)
+    contours, hierarchy = cv2.findContours(gray_img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    # Sắp xếp các contour theo diện tích giảm dần:
+    area_cnt = [cv2.contourArea(cnt) for cnt in contours]
+    area_sort = np.argsort(area_cnt)[::-1]
+    # Top 20 contour có diện tích lớn nhất
+    # print("area:", area_sort)
+    def _drawBoundingBox(img, cnt):
+        x,y,w,h = cv2.boundingRect(cnt)
+        img = cv2.rectangle(img, (x,y),(x+w,y+h),(0,255,0),2)
+        new_img = img[y:y+h, x:x+w]
+        return new_img
+    new_img = _drawBoundingBox(img, contours[1])
+    new_img= cv2.cvtColor(new_img, cv2.COLOR_BGR2GRAY)
+    new_img = cv2.resize(new_img, (28, 28))
+    new_img = np.pad(new_img, (10,10), 'constant', constant_values=0 )
+    new_img = cv2.resize(new_img, (28,28))/255
+    # print(new_img.shape)
+    a = tf.expand_dims(new_img, axis=0)
+    x = model.predict(a)
+    y = np.argmax(x)
+    # print(y)
+    return y
 
 class handDetector():
     def __init__(self, mode = False, maxHands = 2, detectionCon = 0.5, trackCon = 0.5):
@@ -54,7 +91,7 @@ class handDetector():
                 fingers.append(1)
             else:
                 fingers.append(0)
-            print(self.lmList[self.tipIds[id]][2], self.lmList[self.tipIds[id]-2][2])
+            # print(self.lmList[self.tipIds[id]][2], self.lmList[self.tipIds[id]-2][2])
             
         return fingers
 # mpHands = mp.solutions.hands
@@ -78,10 +115,11 @@ def main():
         if len(lmList) != 0:
             # print(lmList[8])
             finger = detector.finger()
-            print(finger)
+            # print(finger)
             if finger[1] and finger[2] == False:
-                print("select mode")
+                # print("select mode")
                 imgCanvas = np.zeros((480, 640, 3), np.uint8)
+                
             if finger[1] and finger[2] and finger[3] and finger[4]:
                 frame = cv2.circle(frame, (lmList[8][1], lmList[8][2]), 20, (255,0,0), cv2.FILLED)
                 if xp ==0 and yp ==0:
@@ -107,20 +145,25 @@ def main():
                     3, (255, 255, 0), 3)
 
         # frame = cv2.addWeighted(frame,0.5,imgCanvas,0.5,0)
-        cv2.imshow("draw", imgInv)
-        cv2.imshow("image", frame)
+        
         if cv2.waitKey(1) == ord('q'):
-            imgInv = cv2.cvtColor(imgInv, cv2.COLOR_BGR2GRAY)
-            img = cv2.resize(imgInv, (28, 28))
-            img = tf.expand_dims(img, axis=0)
-            a = model.predict(img)
-            b = np.argmax(a)
-            print("aa:", b) 
-            print("drawing")
+
+            # print("drawing")
             # print(img.shape)
             cv2.imwrite("./test4.png", imgCanvas)
 
-            break
+        #predict
+        try:
+            final = cv2.imread("test4.png")
+            result = pred(final)
+            # print("du doan:", result)
+            cv2.putText(frame, f'Predict: {result}',(0, 70), cv2.FONT_HERSHEY_PLAIN,
+                    3, (255, 255, 0), 3)
+                # break
+        except:
+            pass
+        cv2.imshow("draw", imgInv)
+        cv2.imshow("image", frame)
     cap.release()
     cv2.destroyAllWindows()
 
