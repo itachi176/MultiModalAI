@@ -4,7 +4,8 @@ import time
 import os 
 # import HandTrackingModule as hm 
 import mediapipe as mp 
-
+import tensorflow as tf
+import tensorflow as tf
 
 class handDetector():
     def __init__(self, mode = False, maxHands = 2, detectionCon = 0.5, trackCon = 0.5):
@@ -66,7 +67,8 @@ def main():
     detector = handDetector()
     ptime = 0
     xp, yp = 0, 0
-    imgCanvas = np.zeros((480, 640, 3), np.uint8)
+    imgCanvas = np.ones((480, 640, 3), np.uint8)
+    model = tf.keras.models.load_model('./gesture/ml.h5')
     while(True):
         ret, frame = cap.read()
         frame = cv2.flip(frame, 1)
@@ -77,25 +79,26 @@ def main():
             # print(lmList[8])
             finger = detector.finger()
             print(finger)
-            if finger[1] and finger[2]:
+            if finger[1] and finger[2] == False:
                 print("select mode")
                 imgCanvas = np.zeros((480, 640, 3), np.uint8)
-            if finger[1] and finger[2] == False:
+            if finger[1] and finger[2] and finger[3] and finger[4]:
                 frame = cv2.circle(frame, (lmList[8][1], lmList[8][2]), 20, (255,0,0), cv2.FILLED)
                 if xp ==0 and yp ==0:
                     xp, yp = lmList[8][1], lmList[8][2]
 
-                cv2.line(frame, (xp, yp), (lmList[8][1], lmList[8][2]), (255, 0, 0), 10)
-                cv2.line(imgCanvas, (xp, yp), (lmList[8][1], lmList[8][2]), (255, 0, 0), 10)
-                cv2.imwrite("./test.png", cv2.resize(imgCanvas,(8, 8)))
+                cv2.line(frame, (xp, yp), (lmList[8][1], lmList[8][2]), (0, 0, 255), 20 )
+                cv2.line(imgCanvas, (xp, yp), (lmList[8][1], lmList[8][2]), (0, 0, 255), 20)
                 xp, yp = lmList[8][1], lmList[8][2]
-                print("drawing")
+
+                # img = cv2.cvtColor(imgCanvas, cv2.COLOR_BGR2GRAY)
+                
         
         imgGray = cv2.cvtColor(imgCanvas, cv2.COLOR_BGR2GRAY)
         _, imgInv = cv2.threshold(imgGray, 50, 255, cv2.THRESH_BINARY_INV)
         imgInv = cv2.cvtColor(imgInv, cv2.COLOR_GRAY2BGR)
         frame = cv2.bitwise_and(frame, imgInv)
-        frame = cv2.bitwise_or(frame, imgCanvas)
+        # frame = cv2.bitwise_or(frame, imgCanvas)
         #display fps
         ctime = time.time()
         fps = 1/(ctime-ptime)
@@ -103,10 +106,20 @@ def main():
         cv2.putText(frame, f'FPS: {int(fps)}',(400, 70), cv2.FONT_HERSHEY_PLAIN,
                     3, (255, 255, 0), 3)
 
-        frame = cv2.addWeighted(frame,0.5,imgCanvas,0.5,0)
+        # frame = cv2.addWeighted(frame,0.5,imgCanvas,0.5,0)
+        cv2.imshow("draw", imgInv)
         cv2.imshow("image", frame)
-        cv2.imshow("draw", imgCanvas)
         if cv2.waitKey(1) == ord('q'):
+            imgInv = cv2.cvtColor(imgInv, cv2.COLOR_BGR2GRAY)
+            img = cv2.resize(imgInv, (28, 28))
+            img = tf.expand_dims(img, axis=0)
+            a = model.predict(img)
+            b = np.argmax(a)
+            print("aa:", b) 
+            print("drawing")
+            # print(img.shape)
+            cv2.imwrite("./test4.png", imgCanvas)
+
             break
     cap.release()
     cv2.destroyAllWindows()

@@ -4,7 +4,8 @@ from keras.datasets import mnist
 import matplotlib.pyplot as plt
 import pickle
 import numpy as np
-
+import tensorflow as tf
+import cv2
 
 (X_train, y_train), (X_test, y_test) = mnist.load_data()
 pant = mnist.load_data()
@@ -39,7 +40,16 @@ for i in range (len(prediction)):
     print("The number was actually a ", actual)
     plt.imshow(X_test[i], cmap=plt.cm.binary)
     plt.show()
-
+img = cv2.imread('./test.png')
+img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+_, imgInv = cv2.threshold(img, 50, 255, cv2.THRESH_BINARY_INV)
+img = cv2.cvtColor(imgInv, cv2.COLOR_GRAY2BGR)
+img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+img = cv2.resize(img, (28, 28))
+a = tf.expand_dims(img, axis=0)
+x = model.predict(a)
+y = np.argmax(x)
+print(y)
 model.save("ml.model")
 
-print("model saved")
+# print("model saved")
