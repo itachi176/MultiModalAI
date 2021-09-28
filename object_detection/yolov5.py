@@ -10,12 +10,12 @@ def yolo(image):
     model.iou = 0.6
     img1 = image[..., ::-1]
     results = model(img1)
-    # results.print()  
+    results.print()
     results.show()
     results.save()
     results.xywh[0]
     a = results.pandas().xywh[0]
-    # print(a)
+    print(a)
     # results.show()
     # print(a['confidence'][0])
     boxes = []
