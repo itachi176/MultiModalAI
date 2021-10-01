@@ -1,4 +1,4 @@
-from speech_to_text import *
+from speech.speech_to_text import *
 from sklearn.feature_extraction.text import TfidfVectorizer
 import math
 import copy
@@ -26,7 +26,7 @@ def similary(a):
     # print(sim)
 
 
-    with open('data.txt', 'r') as file:
+    with open('./data/data.txt', 'r') as file:
         temp = 0
         str = ''
         for i in file:

@@ -99,36 +99,36 @@ def speak():
             
 def video():
     global flag 
-    cap = cv2.VideoCapture(0)
-    while(True):
-        # flag = 0
-        ret, frame = cap.read()
-        if ret == False:
-            break
-        k = cv2.waitKey(1)
+    # cap = cv2.VideoCapture(0)
+    # while(True):
+    #     # flag = 0
+    #     ret, frame = cap.read()
+    #     if ret == False:
+    #         break
+    #     k = cv2.waitKey(1)
         
-        cv2.imshow("hi", frame)
-        # a = input()
-        # if 0xFF == ord('c'):
+    #     cv2.imshow("hi", frame)
+    #     # a = input()
+    #     # if 0xFF == ord('c'):
         
-        # if k%256 == 27:
-        #     # ESC pressed
-        #     cv2.imwrite("./robot_cam/image.jpg", cv2.imread('./a.jpg'))
-        #     str = get_corr(cv2.imread('./a.jpg'))
-        #     print(str)
-        #     print("hello")
-        if flag == 1:
-            cv2.imwrite("./robot_cam/image.jpg", cv2.imread('./a.jpg'))
-            str = get_corr(cv2.imread('./a.jpg'))
-            print(str)
-            print("hello")
-        flag = 0
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+    #     # if k%256 == 27:
+    #     #     # ESC pressed
+    #     #     cv2.imwrite("./robot_cam/image.jpg", cv2.imread('./a.jpg'))
+    #     #     str = get_corr(cv2.imread('./a.jpg'))
+    #     #     print(str)
+    #     #     print("hello")
+    #     if flag == 1:
+    #         cv2.imwrite("./robot_cam/image.jpg", cv2.imread('./a.jpg'))
+    #         str = get_corr(cv2.imread('./a.jpg'))
+    #         print(str)
+    #         print("hello")
+    #     flag = 0
+    #     if cv2.waitKey(1) & 0xFF == ord('q'):
+    #         break
 
 
-    cap.release()
-    cv2.destroyAllWindows()
+    # cap.release()
+    # cv2.destroyAllWindows()
 
 th2 = Thread(target=speak)
 th2.start()
