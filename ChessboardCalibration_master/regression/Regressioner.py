@@ -3,6 +3,9 @@ import numpy as np
 import os 
 import cv2
 import time
+import sys
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../'))
+import os
 class Regression:
     def __init__(self, data):
         self.data = pd.read_csv(data)
@@ -61,10 +64,10 @@ class Regression:
             print(loss)
         #print(k)
         #print(q)
-        np.save(open('./regression/regression_data.npy', 'wb'),[k,q], dtype="object")
+        np.save(open('./ChessboardCalibration_master/regression/regression_data.npy', 'wb'),[k,q], dtype="object")
 
-    def getRegressionData(self, data = './ChessboardCalibration_master/regression/regression_data.npy'):
-        k, q = np.load(open(data, 'rb'))
+    def getRegressionData(self, data = './regression_data.npy'):
+        k, q = np.load(open(data, 'rb'), allow_pickle=True)
         self.k = k
         self.q = q
         print("k,q", k, q)

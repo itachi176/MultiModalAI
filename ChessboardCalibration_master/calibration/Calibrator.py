@@ -147,7 +147,7 @@ class Trainer:
         #print(appr_edge_length)
         
         saveData = (corners, appr_edge_length)
-        pickle.dump(saveData, open('./calibration/calib.pkl', 'wb'))
+        pickle.dump(saveData, open('./ChessboardCalibration_master/calibration/calib.pkl', 'wb'))
         for i, (x, y) in enumerate(corners):
             cv2.circle(self.img, (int(x),int(y)), 5, (0,0, 255), -1)
             #cv2.putText(self.img, str(i), (int(x),int(y)),cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,0), 2)

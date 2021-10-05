@@ -26,7 +26,7 @@ def yolo(image):
     results.xywh[0]
     a = results.pandas().xywh[0]
     # print(a)
-    # results.show()
+    results.show()
     # print(a['confidence'][0])
     boxes = []
     return a 
@@ -76,13 +76,13 @@ print(classNames)
 
 
 # Initialize the webcam
-cap1 = cv2.VideoCapture(1)
-cap2 = cv2.VideoCapture(0)
+cap1 = cv2.VideoCapture(0)
+# cap2 = cv2.VideoCapture(0)
 
 while True:
     # Read each frame from the webcam
     ret1, frame = cap1.read()
-    ret2, img = cap2.read()
+    # ret2, img = cap2.read()
     if ret1:
         x, y, c = frame.shape
 
@@ -123,8 +123,10 @@ while True:
         if cv2.waitKey(33) == ord("a"):
             if (className == "004"):
                 print("hi")
+                cv2.imwrite("./robot_cam/image.jpg", cv2.imread('./a.jpg'))
                 cv2.imwrite("./robot_cam/image.jpg", frame)
-                str = get_corr(frame)
+    
+                str = get_corr(cv2.imread('./a.jpg'))
                 print(str)
             # arduino.write_data(className)
             else:
@@ -133,8 +135,8 @@ while True:
 
         # Show the final output
         cv2.imshow("human_cam", frame) 
-    if ret2:
-        cv2.imshow("object_cam", img)
+    # if ret2:
+    #     cv2.imshow("object_cam", img)
     if cv2.waitKey(1) == ord('q'):
         break
 
