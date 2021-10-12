@@ -54,7 +54,7 @@ def get_corr(img):
     # err = round(err, 2)
     return "{} {}".format(xcenter_mm, ycenter_mm)
 
-ser = serial.Serial("/dev/ttyUSB0", 9600, timeout=1)
+# ser = serial.Serial("/dev/ttyUSB0", 9600, timeout=1)
 
 def write_data(string):
     ser.write(string.encode())
