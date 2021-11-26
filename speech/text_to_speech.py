@@ -8,8 +8,8 @@ import os
 
 def text_to_speech(text):
     output = gTTS(text,lang="vi", slow=False)
-    output.save("./data/output.mp3")
-    playsound.playsound('./data/output.mp3', True)
+    output.save("../data/output.mp3")
+    playsound.playsound('../data/output.mp3', True)
 
 # def download(url, file_name):
 #     if os.path.isfile(file_name):
@@ -41,5 +41,6 @@ def text_to_speech(text):
 
 # # a = test()
 # # print(type(a))
+text_to_speech("hoang dep trai")
 
 

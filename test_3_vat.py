@@ -1,32 +1,20 @@
 import torch 
 import  cv2
 import os 
-import ChessboardCalibration_master.tools.predict as predict #calibration 
 import time
-from speech.text_to_speech import *
-
+# from speech.text_to_speech import *
+from gtts import gTTS
 from threading import Thread 
 from speech.similary import *
-
-def yolo(image):
-    model = torch.hub.load('ultralytics/yolov5', 'custom', path='./model/super-best.pt')
-    model.conf = 0.6
-    model.iou = 0.6
-    img1 = image[..., ::-1]
-    results = model(img1)
-    results.print()  
-    results.show()
-    # results.save()
-    results.xywh[0]
-    a = results.pandas().xywh[0]
-    # print(a)
-    # results.show()
-    # print(a['confidence'][0])
-    boxes = []
-    return a 
+from speech.speech_duration import mutagen_length
 
 while(True):
     x = speech_to_text()
+    output = gTTS(x,lang="vi", slow=False)
+    output.save("./data/output.mp3")
+    time = mutagen_length('./data/output.mp3')
+    with open('time1.txt', 'a') as f:
+        f.writelines(str(time)+'\n')
     try:
         x= similary(x)
         print(x)

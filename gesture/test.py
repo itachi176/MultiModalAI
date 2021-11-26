@@ -136,8 +136,8 @@ while True:
 
         # Show the final output
         cv2.imshow("human_cam", frame) 
-    # if ret2:
-    #     cv2.imshow("object_cam", img)
+    if ret2:
+        cv2.imshow("object_cam", img)
     if cv2.waitKey(1) == ord('q'):
         break
 

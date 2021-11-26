@@ -10,6 +10,7 @@ def speech_to_text():
     with sr.Microphone() as source:
         print("speak anything: ")
         audio = r.listen(source)
+        
 
         try:
             text = r.recognize_google(audio, language="vi-VI")

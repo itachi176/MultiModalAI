@@ -1,51 +1,24 @@
-import pytesseract as  tess
-tess.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-import cv2 
-import re
-from PIL import Image   
-import time
-a = time.time()
-img = cv2.imread("test.png")
-img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-# cong = r'--oem 3 --psm 6 outputbase digits'
+import torch
+import cv2
+import time 
 
-x = tess.image_to_string(img, lang = "vie")
-corr = []
-name = []
-token = x.split("\n")
-token = token[:-1]
-print(token)
-# print(token[1])
-for i in token:
-    regex = re.search("^\d", i)
-    if regex != None:
-        # i = i.replace(" ", '')
-        name.append(i)
-#split data 
-name1 = []
-name2 = []
-# print(name)
-#get name 
-for i in name:
-    name1.append(i.split("SL")[0])
-    name2.append(i.split("SL")[1])
-
-for i in range(len(name1)):
-    name1[i] = name1[i][:-2]
-
-tenthuoc=[]
-soluong=[]
-
-for i in name1:
-    tenthuoc.append(i.split(".")[1])
-# for i in name1:
-#     i=i[2:]
-    # print(i)
-print("ten thuoc: ", tenthuoc)
-
-#lay so luong thuoc 
-for i in range (len(name2)):
-    name2[i] = name2[i][1:]
-# print(name1)
-print(time.time() - a)
-# print(x)
+def yolo(image):
+    model = torch.hub.load('./yolov5', 'custom', path='./model/super-best.pt', source='local')
+    model.conf = 0.6
+    model.iou = 0.6
+    img1 = image[..., ::-1]
+    results = model(img1)
+    # results.print()  
+    # results.show()
+    # results.save()
+    # results.xywh[0]
+    a = results.pandas().xywh[0]
+    # print(a)
+    # results.show()
+    # print(a['confidence'][0])
+    boxes = []
+    return a 
+start = time.time()
+a = yolo(cv2.imread('a.jpg'))
+end = time.time()
+print("time:", end- start)
